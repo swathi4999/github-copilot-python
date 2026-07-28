@@ -9,10 +9,46 @@
   <h1>Sudoku Game</h1>
   <div id="sudoku-board"></div>
   <div class="controls">
+    <label class="control-label">
+      Player:
+      <input id="player-name" type="text" placeholder="Anonymous">
+    </label>
+    <label class="control-label">
+      Difficulty:
+      <select id="difficulty">
+        <option value="easy">Easy</option>
+        <option value="medium" selected>Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </label>
     <button id="new-game">New Game</button>
+    <button id="hint-button">Hint</button>
     <button id="check-solution">Check Solution</button>
     <span id="message"></span>
   </div>
+  <div class="status-bar">
+    <span>Time: <strong id="time-elapsed">0</strong>s</span>
+    <span>Hints: <strong id="hints-used">0</strong></span>
+  </div>
+  <section id="leaderboard-panel">
+    <h2>Top 10 Leaderboard</h2>
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Player</th>
+          <th>Time</th>
+          <th>Difficulty</th>
+          <th>Hints</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="5">No completed games yet.</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
   <script src="/static/main.js"></script>
 </body>
 </html>
