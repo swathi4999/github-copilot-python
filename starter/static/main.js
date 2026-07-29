@@ -34,7 +34,9 @@ function createBoardElement() {
 
         const val = e.target.value.replace(/[^1-9]/g, '');
         e.target.value = val;
-        updateBoardHighlights();
+        const board = getBoardState();
+        const conflicts = findBoardConflicts(board);
+        updateBoardHighlights(conflicts);
       });
       rowDiv.appendChild(input);
     }
@@ -62,6 +64,67 @@ function updateStatus() {
 
 function getCellIndex(row, col) {
   return row * SIZE + col;
+}
+
+function findBoardConflicts(board) {
+  const conflicts = new Set();
+
+  for (let row = 0; row < SIZE; row++) {
+    const seen = new Map();
+    for (let col = 0; col < SIZE; col++) {
+      const value = board[row][col];
+      if (!value) {
+        continue;
+      }
+      if (seen.has(value)) {
+        conflicts.add(`${row}:${seen.get(value)}`);
+        conflicts.add(`${row}:${col}`);
+      } else {
+        seen.set(value, col);
+      }
+    }
+  }
+
+  for (let col = 0; col < SIZE; col++) {
+    const seen = new Map();
+    for (let row = 0; row < SIZE; row++) {
+      const value = board[row][col];
+      if (!value) {
+        continue;
+      }
+      if (seen.has(value)) {
+        conflicts.add(`${seen.get(value)}:${col}`);
+        conflicts.add(`${row}:${col}`);
+      } else {
+        seen.set(value, row);
+      }
+    }
+  }
+
+  for (let boxRow = 0; boxRow < SIZE; boxRow += 3) {
+    for (let boxCol = 0; boxCol < SIZE; boxCol += 3) {
+      const seen = new Map();
+      for (let row = boxRow; row < boxRow + 3; row++) {
+        for (let col = boxCol; col < boxCol + 3; col++) {
+          const value = board[row][col];
+          if (!value) {
+            continue;
+          }
+          if (seen.has(value)) {
+            conflicts.add(`${seen.get(value)}:${col}`);
+            conflicts.add(`${row}:${col}`);
+          } else {
+            seen.set(value, `${row}:${col}`);
+          }
+        }
+      }
+    }
+  }
+
+  return Array.from(conflicts).map((entry) => {
+    const [row, col] = entry.split(':').map(Number);
+    return [row, col];
+  });
 }
 
 function updateBoardHighlights(conflicts = [], incorrect = []) {

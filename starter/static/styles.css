@@ -2,7 +2,7 @@
     color-scheme: light;
     --page-bg: #f4f4f4;
     --page-text: #1f2937;
-    --board-bg: #ff1493;
+    --board-bg: #ffffff;
     --board-border: #334155;
     --cell-bg: #fbfdff;
     --cell-alt-bg: #f2f7ff;
@@ -50,17 +50,6 @@
     box-sizing: border-box;
 }
 
-@keyframes text-flash {
-    0%, 100% {
-        opacity: 1;
-        color: var(--page-text);
-    }
-    50% {
-        opacity: 0;
-        color: #ff1493;
-    }
-}
-
 body {
     font-family: Arial, sans-serif;
     background: var(--page-bg);
@@ -72,10 +61,6 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-}
-
-h1, h2, .control-label, .status-bar span, button, #message, #leaderboard th, #leaderboard td, .sudoku-cell, input, select, option {
-    animation: text-flash 0.8s linear infinite;
 }
 
 h1 {
@@ -92,7 +77,7 @@ h1 {
     margin: 18px auto 24px;
     border: 4px solid var(--board-border);
     border-radius: 16px;
-    background: #ff1493;
+    background: var(--board-bg);
     box-shadow: var(--shadow);
     overflow: hidden;
 }
@@ -128,7 +113,7 @@ h1 {
     border-right: 3px solid var(--board-border);
 }
 
-.sudoku-row:nth-child(-n + 3) .sudoku-cell,
+..sudoku-row:nth-child(-n + 3) .sudoku-cell,
 .sudoku-row:nth-child(n + 7):nth-child(-n + 9) .sudoku-cell {
     border-bottom: 3px solid var(--board-border);
 }
@@ -142,6 +127,28 @@ h1 {
 }
 
 .sudoku-cell.prefilled {
+    background: var(--prefilled-bg);
+    font-weight: 700;
+    color: var(--prefilled-text);
+}
+
+.sudoku-cell.conflict {
+    background: #f8d7da;
+    border-color: #f5c2c7;
+    color: #7f1d1d;
+}
+
+.sudoku-cell.incorrect {
+    background: var(--incorrect-bg);
+}
+
+.sudoku-cell.conflict:focus {
+    outline-color: #b91c1c;
+}
+
+.sudoku-cell.incorrect:focus {
+    outline-color: #991b1b;
+}
     background: var(--prefilled-bg);
     font-weight: 700;
     color: var(--prefilled-text);
